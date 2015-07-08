@@ -1,6 +1,7 @@
 package org.code.tree;
 
 import java.util.Arrays;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
  class Node {
@@ -16,6 +17,14 @@ import java.util.StringTokenizer;
 		this.nright = nright;
 
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		
+		return new Integer(value).toString();
+	
+	}
 
 }
 
@@ -30,7 +39,36 @@ public class NodeRead {
 	   Node node = 	readFromString("10 324 2 5 6 9 4 1");
 	//	printInOrder(node);
 	//	morrisonTraversal(node);
-		System.out.println(sizeOfTree(node));
+	   System.out.println(maxDepth(node));
+	//	System.out.println(sizeOfTree(node));
+	   printPaths(node, new Stack<Node>());
+	}
+
+	private static void printPaths(Node node, Stack<Node> stack) {
+		
+		if(node == null)
+		{
+			return;
+		}
+		if(node.nleft  == null && node.nright == null)
+		{
+			stack.push(node);
+			System.out.println(stack.toString());
+			if(!stack.isEmpty())stack.pop();
+			return;
+		}
+		stack.push(node);
+		printPaths(node.nleft, stack);
+		printPaths(node.nright, stack);
+		stack.pop();
+	}
+
+	private static int maxDepth(Node node) {
+
+		if(node == null)
+			return 0;
+		
+		return 1+ Math.max(maxDepth(node.nleft), maxDepth(node.nright));
 	}
 
 	private static int sizeOfTree(Node node) {
